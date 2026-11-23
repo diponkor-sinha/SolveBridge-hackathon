@@ -12,7 +12,6 @@ An open innovation platform that connects people who face real-world problems wi
 
 <br />
 
-[![CI](https://github.com/YOUR_USERNAME/YOUR_REPO/actions/workflows/ci.yml/badge.svg)](https://github.com/YOUR_USERNAME/YOUR_REPO/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 [![Last commit](https://img.shields.io/github/last-commit/YOUR_USERNAME/YOUR_REPO)](https://github.com/YOUR_USERNAME/YOUR_REPO/commits/main)
 [![PRs welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](#contributing)
@@ -29,7 +28,7 @@ An open innovation platform that connects people who face real-world problems wi
 
 <br />
 
-[**Live demo**](https://YOUR_LIVE_URL) &nbsp;·&nbsp;
+[**Live demo**](https://solvebridge.lovable.app) &nbsp;·&nbsp;
 [How it works](#how-solvebridge-works) &nbsp;·&nbsp;
 [Features](#features) &nbsp;·&nbsp;
 [Security](#security-and-privacy) &nbsp;·&nbsp;
@@ -48,7 +47,7 @@ An open innovation platform that connects people who face real-world problems wi
 
 ## Overview
 
-Anyone can submit a problem without creating an account. Registered solvers discover approved problems, choose the ones they want to work on, and submit solutions. Before anything becomes public, a human moderator reviews it.
+Anyone can submit a problem without creating an account. Registered solvers discover approved problems, choose the ones they want to work on and submit solutions. Before anything becomes public, a human moderator reviews it.
 
 > **Nothing is published automatically.** Problems and solutions pass through two separate human review stages.
 
@@ -486,8 +485,8 @@ Use the package manager and lockfile already present in the repository, and do n
 
 ```bash
 # 1. Clone
-git clone https://github.com/YOUR_USERNAME/YOUR_REPO.git
-cd YOUR_REPO
+git clone https://github.com/diponkor-sinha/SolveBridge-hackathon.git
+cd SolveBridge-hackathon
 
 # 2. Install dependencies
 bun install
