@@ -595,7 +595,7 @@ Please do not publish sensitive vulnerability details in a public issue. Follow 
 
 ## Author
 
-**Diponkor Sinha** — [@YOUR_USERNAME](https://github.com/YOUR_USERNAME)
+**Diponkor Sinha** — [@DIPONKOR_SINHA](https://github.com/diponkor-sinha)
 
 ## License
 
