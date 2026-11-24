@@ -12,6 +12,7 @@ An open innovation platform that connects people who face real-world problems wi
 
 <br />
 
+[![CI](https://github.com/YOUR_USERNAME/YOUR_REPO/actions/workflows/ci.yml/badge.svg)](https://github.com/YOUR_USERNAME/YOUR_REPO/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 [![Last commit](https://img.shields.io/github/last-commit/YOUR_USERNAME/YOUR_REPO)](https://github.com/YOUR_USERNAME/YOUR_REPO/commits/main)
 [![PRs welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](#contributing)
@@ -28,7 +29,7 @@ An open innovation platform that connects people who face real-world problems wi
 
 <br />
 
-[**Live demo**](https://solvebridge.lovable.app) &nbsp;·&nbsp;
+[**Live demo**](https://YOUR_LIVE_URL) &nbsp;·&nbsp;
 [How it works](#how-solvebridge-works) &nbsp;·&nbsp;
 [Features](#features) &nbsp;·&nbsp;
 [Security](#security-and-privacy) &nbsp;·&nbsp;
@@ -47,7 +48,7 @@ An open innovation platform that connects people who face real-world problems wi
 
 ## Overview
 
-Anyone can submit a problem without creating an account. Registered solvers discover approved problems, choose the ones they want to work on and submit solutions. Before anything becomes public, a human moderator reviews it.
+Anyone can submit a problem without creating an account. Registered solvers discover approved problems, choose the ones they want to work on, and submit solutions. Before anything becomes public, a human moderator reviews it.
 
 > **Nothing is published automatically.** Problems and solutions pass through two separate human review stages.
 
@@ -62,9 +63,82 @@ Anyone can submit a problem without creating an account. Registered solvers disc
 | 📎 **Validated uploads** | Type, size, count and file-signature checks; private storage |
 | ♿ **Accessibility-minded** | Skip link, labelled fields, live errors, reduced-motion support |
 
+## Hackathon submission
+
+### Chosen vertical: Open Innovation
+
+The Open Innovation challenge has no fixed topic, so SolveBridge is itself an **open-innovation platform**. Any real-world problem, in any domain (education, health, agriculture, environment, energy, and more), can be submitted, and anyone with the right skills can propose a solution. The platform's job is to make that exchange **safe, reviewed and discoverable**.
+
+**Personas the solution is designed around**
+
+| Persona | What they need | What SolveBridge does for them |
+|---|---|---|
+| **Community member** with a problem | A way to be heard without an account or technical knowledge | Anonymous submission, a reference ID and a private claim key to track or claim the problem later |
+| **Solver** (student, developer, researcher) | Meaningful problems and a fair way to contribute | Browse, search and filter approved problems, select one, submit a solution, respond to feedback |
+| **Moderator** | Confidence that nothing unsafe or low quality goes public | Review queues, accept / reject / request-changes decisions with required feedback, and an audit log |
+
+### Approach and logic
+
+The core idea is **trust through human review, enforced by rules the code can verify**. Instead of publishing everything, SolveBridge makes explicit, testable decisions based on *who is asking, what state the item is in, and what they are trying to do*.
+
+| Context | Decision | Where it lives |
+|---|---|---|
+| Item status and who is viewing | Only `APPROVED` / `RESOLVED` problems and `ACCEPTED` solutions are visible to the public | Row Level Security policies in `drizzle/migrations/` |
+| Current solution status and requested action | Only valid review transitions are allowed; rejecting or requesting changes requires feedback | `src/lib/review-rules.ts` |
+| Caller's role | Admin-only operations are re-checked on the server for every request | `src/lib/admin.functions.ts` |
+| Solver's progress on a problem | A solver must have selected an approved problem to submit, and has at most one active solution per problem | `src/lib/solver.functions.ts`, database constraints |
+| Claim Key presented | Accepted once, compared in constant time against a stored HMAC hash | `src/lib/crypto.ts`, `src/lib/public.functions.ts` |
+| Visitor behaviour | Requests are allowed or blocked using Turnstile, a honeypot field and per-IP / per-user rate limits | `src/lib/server-utils.server.ts` |
+| Uploaded file | Accepted only if type, size, count and file signature all check out | `src/lib/files.ts` |
+
+### How the solution works
+
+1. A community member submits a problem at `/submit` and receives a **reference ID** and a one-time **claim key**.
+2. A moderator reviews it. Only approved problems appear in the public directory.
+3. Solvers browse, search and filter problems, then **select** one. Several solvers can work on the same problem.
+4. A solver submits a solution with optional links and attachments.
+5. A moderator **accepts**, **rejects** or **requests changes**. Solvers can revise and resubmit.
+6. Only accepted solutions are published, on `/solved` and on the problem page.
+
+The full workflow and both status lifecycles are shown in [How SolveBridge works](#how-solvebridge-works).
+
+### Try it in two minutes
+
+1. Open the live demo and go to **Submit a problem**. File a test problem and note the reference ID and claim key.
+2. Open **Problems** to see that your submission is *not* public yet. It is waiting for review.
+3. Browse the approved problems, use the search box and the category filter.
+4. Open **Solved** to see accepted solutions published after review.
+
+### Assumptions
+
+- Problems and solutions are **reviewed by humans** before publication; the platform never publishes automatically.
+- Problem submitters may prefer to stay anonymous, so an account is **not required** to submit. Ownership can be claimed later with the claim key, which is not a proof of real-world identity.
+- A single problem can have **several competing solutions**; accepting one does not close the problem. An admin decides when it is resolved.
+- Categories are managed by admins, and the default set covers common community needs.
+- The platform is designed for **small-to-medium community scale**, with simple moderation by a few admins.
+- Backend services (database, auth, storage) are provided by Lovable Cloud (Supabase).
+
+### Evaluation focus: where to look
+
+| Criterion | Evidence in this repository |
+|---|---|
+| **Problem statement alignment** | Open-innovation workflow in [Approach and logic](#approach-and-logic); review state machine in `src/lib/review-rules.ts` |
+| **Code quality** | Strict TypeScript, Zod validation, clear separation of public / solver / admin server functions, shared rules module |
+| **Security** | [Security and privacy](#security-and-privacy), Row Level Security, server-side admin checks, hashed claim keys, upload validation, `SECURITY.md` |
+| **Efficiency** | TanStack Query caching and route preloading, column-limited queries, WebP hero image |
+| **Testing** | Vitest suite and GitHub Actions workflow, see [Testing and CI](#testing-and-ci) |
+| **Accessibility** | Skip link, labelled fields, `aria-describedby` / `aria-invalid`, reduced-motion support, see [Accessibility](#accessibility) |
+
+### Possible next steps
+
+Ideas that build on the existing foundation (not implemented yet): personalised problem recommendations based on a solver's history, category suggestions while a problem is being written, and email notifications when a solution is reviewed.
+
+---
+
 <details>
 <summary><b>Table of contents</b></summary>
 
+- [Hackathon submission](#hackathon-submission)
 - [The vision](#the-vision)
 - [The challenges we address](#the-challenges-we-address)
 - [What kinds of problems belong on SolveBridge?](#what-kinds-of-problems-belong-on-solvebridge)
@@ -485,8 +559,8 @@ Use the package manager and lockfile already present in the repository, and do n
 
 ```bash
 # 1. Clone
-git clone https://github.com/diponkor-sinha/SolveBridge-hackathon.git
-cd SolveBridge-hackathon
+git clone https://github.com/YOUR_USERNAME/YOUR_REPO.git
+cd YOUR_REPO
 
 # 2. Install dependencies
 bun install
@@ -595,7 +669,7 @@ Please do not publish sensitive vulnerability details in a public issue. Follow 
 
 ## Author
 
-**Diponkor Sinha** — [@DIPONKOR_SINHA](https://github.com/diponkor-sinha)
+**Diponkor Sinha** — [@YOUR_USERNAME](https://github.com/YOUR_USERNAME)
 
 ## License
 
