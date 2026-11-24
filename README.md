@@ -28,7 +28,7 @@ An open innovation platform that connects people who face real-world problems wi
 
 <br />
 
-[**Live demo**](https://YOUR_LIVE_URL) &nbsp;·&nbsp;
+[**Live demo**](https://solvebridge.lovable.app) &nbsp;·&nbsp;
 [How it works](#how-solvebridge-works) &nbsp;·&nbsp;
 [Features](#features) &nbsp;·&nbsp;
 [Security](#security-and-privacy) &nbsp;·&nbsp;
@@ -558,7 +558,7 @@ Use the package manager and lockfile already present in the repository, and do n
 
 ```bash
 # 1. Clone
-git clone https://github.com/YOUR_USERNAME/YOUR_REPO.git
+git clone https://github.com/diponkor-sinha/solvebridge-hackathon.git
 cd YOUR_REPO
 
 # 2. Install dependencies
@@ -668,7 +668,7 @@ Please do not publish sensitive vulnerability details in a public issue. Follow 
 
 ## Author
 
-**Diponkor Sinha** — [@YOUR_USERNAME](https://github.com/YOUR_USERNAME)
+**Diponkor Sinha** — [@diponkor-sinha](https://github.com/YOUR_USERNAME)
 
 ## License
 
