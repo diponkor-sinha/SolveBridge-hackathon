@@ -559,7 +559,7 @@ Use the package manager and lockfile already present in the repository, and do n
 ```bash
 # 1. Clone
 git clone https://github.com/diponkor-sinha/solvebridge-hackathon.git
-cd YOUR_REPO
+cd SolveBridge-hackathon
 
 # 2. Install dependencies
 bun install
